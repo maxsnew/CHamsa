@@ -1,0 +1,52 @@
+diff -C2 -r sary-1.2.0-original/sary/searcher.c sary-1.2.0/sary/searcher.c
+*** sary-1.2.0-original/sary/searcher.c	2004-06-11 13:57:27.000000000 -0500
+--- sary-1.2.0/sary/searcher.c	2005-10-21 13:57:21.000000000 -0500
+***************
+*** 333,336 ****
+--- 333,366 ----
+  }
+  
++ /**
++  * sary_searcher_get_next_offset:
++  * @SarySearcher: a #SarySearcher.
++  *
++  * Get the next search result as #SaryText. The function is useful for low-level
++  * text processing. The all results can be retrieved by calling the functions
++  * continuously.
++  *
++  * Returns: the next search result as #SaryText; NULL if no more results.
++  *
++  **/
++ SaryInt
++ sary_searcher_get_next_offset (SarySearcher *searcher)
++ {
++     SaryInt offset;
++ 
++     if (searcher->cursor > searcher->last) {
++ 	return -1;
++     }
++ 
++     offset = GINT_FROM_BE(*(searcher->cursor));
++     searcher->cursor++;
++ 
++     return offset;
++ }
++ 
++ 
++ 
++ 
++ 
+  gchar *
+  sary_searcher_get_next_line (SarySearcher *searcher)
+diff -C2 -r sary-1.2.0-original/sary/searcher.h sary-1.2.0/sary/searcher.h
+*** sary-1.2.0-original/sary/searcher.h	2004-06-11 13:57:27.000000000 -0500
+--- sary-1.2.0/sary/searcher.h	2005-10-21 13:56:44.000000000 -0500
+***************
+*** 50,53 ****
+--- 50,54 ----
+  SaryText*     sary_searcher_get_text                (SarySearcher *searcher);
+  SaryMmap*     sary_searcher_get_array               (SarySearcher *searcher);
++ SaryInt	      sary_searcher_get_next_offset         (SarySearcher *searcher);
+  gchar*        sary_searcher_get_next_line           (SarySearcher *searcher);
+  gchar*        sary_searcher_get_next_line2          (SarySearcher *searcher, 
+Only in sary-1.2.0/tests: repeated.txt.ary

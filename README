@@ -1,0 +1,61 @@
+-----= Dependency =-----
+
+The following libraries are required to build and run Hamsa
+
+1) Sary: suffix array library
+License: LGPL
+Link: http://sary.sourceforge.net/
+Patch: sary-1.2.0.patch
+
+2) Deep-Shallow suffix array construction algorithm
+License: GPL
+Link: http://www.mfn.unipmn.it/~manzini/lightweight/ds.tgz
+Patch: ds.patch
+(Already include in the token extraction library, unless you want to 
+update the ds library, you need not to care about this)
+
+-----= Install =-----
+1) Download, patch and install sary-1.2.0. The patch is sary-1.2.0.patch
+
+2) In TokenEXAPI
+	$ make
+	
+3) In CHamsa
+	$ make
+
+
+-----= Usage =-----
+
+1) Command line
+
+$ ./siggen -h
+Usage : siggen -S <SusPool> -N <NorPool> -L <min_tlen> -r <min_coverage> -U <U0> -v <Ur> -K <Kstar>
+        -S      the directory of suspicious pool including data and offset
+        -N      the directory of normal pool including data and offset
+        -G      the directory for saving the set of signatures
+        -L      the minimum token length, default=2
+        -r      the minimum coverage of a worm also the rThreshold for token extraction, default=15%
+        -U      the U0 parameter
+        -v      the Ur parameter
+        -K      the Kstar parameter (the maximum length of initial signature), should be less than 15
+
+2) Data format
+
+The input data to the Hamsa signature generation program is two data pool:
+suspicious data pool and normal data pool. The data pools are sets of samples
+in different lengths. The storage format is the concatenation of all the
+samples (data file) and the offset index of each sample (offset file). Each 
+data pool is a directory with data and offset file in it.
+
+3) Network traffic preprocessing
+
+For both suspicious and normal data pools we need reassembled tcp/udp 
+flows if the data is in tcpdump raw (pcap) or similar format. This can be 
+done by Bro or libnids.
+
+For normal traffic pool we need to calculate the suffix array and store it
+in the disk. Please use ds tool in the TokenEXAPI for this purpose. 
+The command line is
+
+$ ds -w <filename>.ary <filename>
+

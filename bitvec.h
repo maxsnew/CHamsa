@@ -40,6 +40,7 @@
 #define _INCL_BITVEC_H
 
 #include <string.h>
+#include <assert.h>
 
 using namespace std;
 

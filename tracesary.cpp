@@ -61,7 +61,7 @@ TraceSary::TraceSary(string streamfilename)
 	sary=sary_searcher_new(sary_fname.c_str());
 
 	if (sary==NULL) {
-		cerr << "Could not open sarray" << sary_fname <<endl;
+		cerr << "Could not open sarray: " << sary_fname <<endl;
 	}
 
 

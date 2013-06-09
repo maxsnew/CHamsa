@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 	list<string*> sample;
 	sample.clear();
 	susdatapool.loadsample(sample);
-	//printf("susdatapool.length=%u\n",susdatapool.length);
+        printf("susdatapool.length=%u\n",susdatapool.length);
 
 /*DEBUG
 	Gage++;
@@ -128,19 +128,20 @@ int main(int argc, char *argv[])
 
 DEBUG*/
 	unsigned int covth = (unsigned int) (min_coverage*sample.size()+0.5);
-	//printf("covth=min_coverage*sample.size=%.3f*%u=%u\n",min_coverage,sample.size(),covth);
+        printf("covth=min_coverage*sample.size=%.3f*%u=%u\n",min_coverage,sample.size(),covth);
 	vector<ConjPattern*> sigs;
 	gen_sig (sigs, sample, covth, min_coverage, normallist);
 
 	if (mkdir(sigpath.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP)==-1)
 	{
-		cerr << "Cannot create directory" << sigpath << " : " <<strerror(errno) <<endl;
+		cerr << "Cannot create directory: " << sigpath << " : " <<strerror(errno) <<endl;
 		exit(EXIT_ERROR);
 	}
 
 	vector<ConjPattern*>::iterator cppos;
 	unsigned int i=0;
 	char namebuf[30];
+        
 	for (cppos=sigs.begin(); cppos!=sigs.end(); ++cppos)
 	{
 		i++;
